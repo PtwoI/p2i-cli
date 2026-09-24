@@ -1,13 +1,20 @@
 # p2i-cli
 
-Terminal entry point for local P2I workflows.
+Command-line interface for P2I. Installs the `p2i` terminal command without
+duplicating the analyzer or web server.
 
-## Boundary
+For local development, install `p2i-core`, then `p2i-gui`, then this package
+with `python -m pip install -e .`. From an installed distribution:
 
-Thin commands for `p2i --help`, `p2i serve`, `p2i demo`, and Harness/skill JSON actions. Delegate tracing and validation to [p2i-core](https://github.com/PtwoI/p2i-core); delegate browser serving to [p2i-gui](https://github.com/PtwoI/p2i-gui). Keep established command names and action JSON compatible.
+```bash
+p2i --help
+p2i demo mlp --no-serve --save mlp.json
+p2i demo cnn --no-serve --save cnn.json
+p2i demo transformer --edit
+p2i serve mlp.json
+p2i harness inspect architecture.json
+p2i skills list
+```
 
-## Migration status
-
-**Repository initialized; CLI code has not been moved yet.** Current commands live in [PtwoI/p2i](https://github.com/PtwoI/p2i): `src/p2i/cli.py`, `src/p2i/harness/cli.py` and `src/p2i/skills/cli.py`. Use that package until the separate CLI passes MLP, CNN and Transformer smoke tests.
-
-MIT licensed.
+The existing JSON actions and command names are preserved. Model analysis,
+actions and skills come from `p2i-core`; serving comes from `p2i-gui`.
