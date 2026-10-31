@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "p2i-cli"
-version = "0.4.1"
+version = "0.4.2"
 description = "Command-line interface for the local P2I model explorer"
 readme = "README.md"
 license = {file = "LICENSE"}
 requires-python = ">=3.11"
-dependencies = ["p2i-core>=0.4.1,<0.5", "p2i-gui>=0.4.1,<0.5"]
+dependencies = ["p2i-core>=0.4.2,<0.5", "p2i-gui>=0.4.2,<0.5"]
 
 [project.optional-dependencies]
 test = ["pytest>=8"]

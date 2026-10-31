@@ -12,12 +12,12 @@ def cli(*arguments):
                           text=True, capture_output=True, timeout=90)
 
 
-@pytest.mark.parametrize('name', ['mlp', 'cnn', 'transformer'])
+@pytest.mark.parametrize('name', ['mlp', 'cnn', 'transformer', 'rnn', 'lstm', 'gru'])
 def test_demo_checkpoint_edit_open_and_train(name, tmp_path):
     checkpoint = tmp_path / 'original.p2i'
     result = cli('demo', name, '--no-serve', '--checkpoint', checkpoint)
     assert result.returncode == 0, result.stderr
-    target = {'mlp': 'layers.0', 'cnn': 'features.0', 'transformer': 'head'}[name]
+    target = {'mlp': 'layers.0', 'cnn': 'features.0', 'transformer': 'head', 'rnn': 'head', 'lstm': 'head', 'gru': 'head'}[name]
     action = tmp_path / 'action.json'
     action.write_text(json.dumps({'type': 'set_parameter', 'target': target,
                                   'parameter': 'bias', 'value': False}))

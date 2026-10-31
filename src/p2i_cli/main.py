@@ -8,7 +8,7 @@ def main():
     serve = sub.add_parser("serve", help="Serve a saved Model IR")
     serve.add_argument("file")
     demo = sub.add_parser("demo", help="Trace an offline bundled model and serve it")
-    demo.add_argument("name", choices=["mlp", "cnn", "transformer"])
+    demo.add_argument("name", choices=["mlp", "cnn", "transformer", "rnn", "lstm", "gru"])
     demo.add_argument("--save", default=None, help="Also write the IR to this JSON path")
     demo.add_argument("--no-serve", action="store_true", help="Only analyze (use with --save)")
     demo.add_argument("--checkpoint", help="Save an editable model checkpoint with weights and examples")

@@ -38,3 +38,14 @@ matching `model=` template or a reconstruction adapter.
 
 Run `python -m pytest -q`. The tests exercise save/edit/validate/open across
 fresh subprocesses for MLP, CNN, and Transformer models.
+
+Version 0.4.2 also bundles `rnn`, `lstm` and `gru` demos. For example:
+
+```bash
+p2i demo lstm --edit
+p2i demo gru --no-serve --checkpoint gru.p2i
+p2i open gru.p2i
+```
+
+They support the same inspect, batch edit, validate and reopen commands as the
+other demos. The GUI provides connected dimension suggestions and a batch form.
