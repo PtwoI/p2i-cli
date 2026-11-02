@@ -52,3 +52,14 @@ jobs:
       - run: python -m pytest -q tests
       - run: python scripts/verify_install.py
       - run: python -m build
+      - name: Verify all four built wheels in a clean environment
+        run: |
+          python -m build --wheel --outdir wheelhouse ./deps/core
+          python -m build --wheel --outdir wheelhouse ./deps/gui
+          python -m build --wheel --outdir wheelhouse ./deps/sdk
+          python -m build --wheel --outdir wheelhouse .
+          python -m venv wheel-venv
+          wheel-venv/bin/python -m pip install torch==2.6.0 --index-url https://download.pytorch.org/whl/cpu
+          wheel-venv/bin/python -m pip install wheelhouse/*.whl
+          wheel-venv/bin/python scripts/verify_install.py
+          wheel-venv/bin/python -m p2i_cli verify --device cpu --output wheel-verification.json

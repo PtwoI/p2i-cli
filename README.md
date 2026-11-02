@@ -49,3 +49,17 @@ p2i open gru.p2i
 
 They support the same inspect, batch edit, validate and reopen commands as the
 other demos. The GUI provides connected dimension suggestions and a batch form.
+
+## Device verification (0.4.3)
+
+```bash
+p2i verify --device cpu --output cpu-report.json
+p2i verify --device cuda --external --output gpu-report.json
+```
+
+The external option requires core's compatibility extras. It instantiates
+random-weight library models offline and tests editing, retracing, exact
+checkpoint restore, backward validation and optimizer updates. An unavailable
+CUDA device returns exit code 2 and a report stating that no GPU tests ran.
+CI builds and installs all four wheels in a clean venv before executing the
+cross-package HTTP workflow and CPU verification.
