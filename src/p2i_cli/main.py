@@ -5,6 +5,10 @@ import p2i
 def main():
     parser = argparse.ArgumentParser(prog="p2i", description="Local PyTorch model explorer")
     sub = parser.add_subparsers(dest="command", required=True)
+    verify = sub.add_parser("verify", help="Verify installed model workflows on CPU or CUDA")
+    verify.add_argument("--device", choices=["cpu", "cuda"], default="cpu")
+    verify.add_argument("--external", action="store_true")
+    verify.add_argument("--output")
     serve = sub.add_parser("serve", help="Serve a saved Model IR")
     serve.add_argument("file")
     demo = sub.add_parser("demo", help="Trace an offline bundled model and serve it")
@@ -27,6 +31,12 @@ def main():
     from .checkpoint import add_commands as add_checkpoint_commands, run as run_checkpoint
     add_checkpoint_commands(sub)
     args = parser.parse_args()
+    if args.command == "verify":
+        from p2i.verification import main as verify_main
+        options = ["--device", args.device]
+        if args.external:options.append("--external")
+        if args.output:options.extend(["--output", args.output])
+        raise SystemExit(verify_main(options))
     if args.command in ("skills", "tool"):
         raise SystemExit(run_skills(args))
     if args.command == "harness":

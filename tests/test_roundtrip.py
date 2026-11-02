@@ -48,3 +48,12 @@ def test_errors_have_nonzero_exit_and_do_not_create_output(tmp_path):
     result = cli('checkpoint', 'apply', checkpoint, action, '--output', output)
     assert result.returncode == 1
     assert not output.exists()
+
+
+def test_verification_command_records_cpu_execution(tmp_path):
+    path = tmp_path / 'verification.json'
+    result = cli('verify', '--device', 'cpu', '--output', path)
+    assert result.returncode == 0, result.stdout + result.stderr
+    report = json.loads(path.read_text())
+    assert report['success'] and report['device'] == 'cpu'
+    assert {case['model'] for case in report['cases']} == {'mlp','cnn','transformer','rnn','lstm','gru'}
